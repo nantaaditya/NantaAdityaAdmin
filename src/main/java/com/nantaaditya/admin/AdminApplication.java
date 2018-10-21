@@ -1,6 +1,8 @@
 package com.nantaaditya.admin;
 
+import com.nantaaditya.admin.properties.ContextPathProperties;
 import org.apache.coyote.http11.AbstractHttp11Protocol;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -12,6 +14,9 @@ import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 public class AdminApplication extends SpringBootServletInitializer {
+
+  @Autowired
+  private ContextPathProperties properties;
 
   public static void main(String[] args) {
     SpringApplication.run(AdminApplication.class, args);
@@ -35,6 +40,6 @@ public class AdminApplication extends SpringBootServletInitializer {
 
   @Bean
   public EmbeddedServletContainerCustomizer embeddedServletContainerCustomizer() {
-    return container -> container.setContextPath("/admin");
+    return container -> container.setContextPath(properties.getContextPath());
   }
 }
