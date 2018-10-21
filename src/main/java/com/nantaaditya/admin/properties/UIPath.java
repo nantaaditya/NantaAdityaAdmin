@@ -13,5 +13,6 @@ public interface UIPath {
   String DASHBOARD = "/dashboard";
   String HOME_DASHBOARD = "/home-dashboard";
   String BLOG_DASHBOARD = "/blog-dashboard";
+  String IMAGE_DASHBOARD = "/image-dashboard";
   String CONTACT_DASHBOARD = "/contact-dashboard";
 }
