@@ -4,7 +4,7 @@ angular.module('blogController').controller(
     function ($scope, LoadingFactory, CookiesFactory, CustomSessionFactory,
         SessionFactory, FileUploader, LogoutFactory,
         ChangePasswordFactory, SaveBlogFactory, GetBlogFactory,
-        TogglePostFactory, FindPostFactory, UpdatePostFactory) {
+        TogglePostFactory, FindPostFactory, UpdatePostFactory, RepublishNotification) {
       // VARIABLE
       $scope.oldPassword;
       $scope.newPassword;
@@ -194,6 +194,22 @@ angular.module('blogController').controller(
         });
       }
 
+      var republishNotification = function(titleId) {
+        LoadingFactory.increase("republish-"+titleId);
+        RepublishNotification.post({
+          'titleId': titleId
+        }, function(response){
+            if(response.success){
+              sweetAlert("Success", response.message, "success");
+            } else {
+              alertHandler(response);
+            }
+          LoadingFactory.decrease("republish-"+titleId);
+         }, function(response){
+          LoadingFactory.decrease("republish-"+titleId);
+         });
+      }
+
       // EVENT
       $scope.unauthenticate = function () {
         logoutFactory();
@@ -205,6 +221,10 @@ angular.module('blogController').controller(
 
       $scope.addBlog = function () {
         $scope.blog.post = CKEDITOR.instances['text-create'].getData();
+        if($scope.notification === "enable")
+          $scope.blog.notification = true;
+        else
+          $scope.blog.notification = false;
         saveBlogFactory();
       };
 
@@ -220,6 +240,10 @@ angular.module('blogController').controller(
         $scope.activeBlog.post = CKEDITOR.instances['text-edit'].getData();
         $scope.activeBlog.titleId = $scope.titleId;
         updateBlogFactory();
+      }
+
+      $scope.republish = function(titleId){
+        republishNotification(titleId);
       }
 
       // INIT

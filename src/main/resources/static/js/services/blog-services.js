@@ -62,3 +62,15 @@ angular.module('blogService').factory('UpdatePostFactory',
         }
       });
     });
+
+angular.module('blogService').factory('RepublishNotification',
+    function ($resource, RequestIdFactory, BaseURLFactory) {
+      return $resource(BaseURLFactory.get() + '/api/blog/republish/:titleId', {titleId: '@titleId'}, {
+        post: {
+          method: 'POST',
+          params: {
+            'requestId': RequestIdFactory.get()
+          }
+        }
+      });
+    });

@@ -207,20 +207,25 @@
                                 <td><span>
                                     <label
                                             class="label label-success" style="cursor: pointer"
+                                            ng-show="b.status==true"
                                             ng-click="toggleBlog(b.titleId)"
-                                            ng-if="!loadings.status('toggle-blog'+b.titleId) && b.status">Active</label>
+                                            ng-show="!loadings.status('toggle-blog'+b.titleId)">Active</label>
                                     <label
                                             class="label label-danger" style="cursor: pointer"
+                                            ng-show="b.status==false"
                                             ng-click="toggleBlog(b.titleId)"
-                                            ng-if="!loadings.status('toggle-blog'+b.titleId) && !b.status">Disable</label>
+                                            ng-show="!loadings.status('toggle-blog'+b.titleId)">Disable</label>
 										</span>
-                                    <i class="fa fa-cog fa-spin" ng-if="loadings.status('toggle-blog'+b.titleId)"></i>
+                                    <i class="fa fa-cog fa-spin" ng-show="loadings.status('toggle-blog'+b.titleId)"></i>
                                 </td>
                                 <td>
                                     <button class="btn btn-warning" ng-click="open(b.titleId)" ng-show="!loadings.status('find-blog'+b.titleId)">
                                         <i class="fa fa-pencil"></i>
                                     </button>
-                                    <i class="fa fa-cog fa-spin" ng-show="loadings.status('find-blog'+b.titleId)"></i>
+                                    <i class="fa fa-cog fa-spin" ng-show="loadings.status('find-blog'+b.titleId) || loadings.status('republish-'+b.titleId)"></i>
+                                    <button class="btn btn-success" ng-click="republish(b.titleId)" ng-show="!loadings.status('republish-'+b.titleId)">
+                                        <i class="fa fa-bell"></i>
+                                    </button>
                                 </td>
                             </tr>
                             </tbody>
@@ -268,6 +273,10 @@
                                                     type="text" class="form-control"
                                                     ng-model="blog.description"
                                                     required/>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="radio" name="notification" value="enable" ng-model="notification"> enable notification
+                                            <input type="radio" name="notification" value="disable" ng-model="notification"> disable notification
                                         </div>
                                         <div class="form-group">
                                             <label class="label label-default">Post</label>
